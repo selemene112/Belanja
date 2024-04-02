@@ -5,6 +5,8 @@ const secretKey = 'mysecretkey';
 const ValidasiToken = async (req, res, next) => {
   // ================================================= Cek Token ====================================================
   const generateToken = req.header('Authorization');
+  // console.log('ini Token ++++' + generateToken);
+  const token = generateToken.split(' ')[1];
   if (!generateToken) {
     return res.status(401).json({
       success: false,
@@ -15,10 +17,15 @@ const ValidasiToken = async (req, res, next) => {
   // ================================================= END Cek Token ====================================================
 
   try {
-    const decoded = jwt.verify(generateToken, secretKey);
+    const decoded = jwt.verify(token, secretKey);
     req.user = decoded;
     next();
-  } catch (error) {}
+  } catch (error) {
+    return res.status(401).json({
+      success: false,
+      message: 'Invalid Token',
+    });
+  }
 };
 
 // ===================================================== END Validasi Token ==============================================
