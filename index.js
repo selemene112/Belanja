@@ -10,6 +10,7 @@ config();
 
 // import UserAuthRoute from './src/Route/Testing';
 const UserAuthRoute = require('./src/Route/Testing');
+const ProductRoute = require('./src/Route/ProuductRoute');
 
 //================================================= END CALL ROUTE =====================================================================
 
@@ -23,6 +24,7 @@ app.get('/v1.0.0/testing', (req, res) => {
 
 // ================================================ Call Controller From Controller file ====================================================
 app.use('/api/v1.0.0/auth', UserAuthRoute);
+app.use('/api/v1.0.0/product', ProductRoute);
 
 //  ============================================= END CALL CONTROLLER =====================================================================
 
