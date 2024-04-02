@@ -21,6 +21,107 @@ model User {
   photo     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  products  Product[]
+  Bathrooms Bathrooms[]
+  Bedrooms Bedrooms[]
+  exterior exterior[]
+  kitchen kitchen[]
+  livingroom livingroom[]
+  moredata moredata[]
+}
+
+model Product {
+  id        String    @id @default(uuid())
+  title     String
+  id_user String
+  user      User      @relation(fields: [id_user], references: [id])
+  name_user String
+  contact   String
+  andress   String
+  country   String
+  city      String
+  subdistrict  String
+  postalcode   String
+  map          String
+  price     Float
+  photo     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Bathrooms Bathrooms[]
+  Bedrooms Bedrooms[]
+  kitchen kitchen[]
+  exterior exterior[]
+  livingroom livingroom[]
+  moredata moredata[]
+}
+
+model Bathrooms {
+  id String @id @default(uuid())
+  id_user String
+  user User @relation(fields: [id_user], references: [id])
+  id_product String
+  product Product @relation(fields: [id_product], references: [id])
+  photo_bathroom String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Bedrooms {
+  id String @id @default(uuid())
+  id_user String
+  user User @relation(fields: [id_user], references: [id])
+  id_product String
+  product Product @relation(fields: [id_product], references: [id])
+  photo_bedroom String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model kitchen {
+  id String @id @default(uuid())
+  id_user String
+  user User @relation(fields: [id_user], references: [id])
+  id_product String
+  product Product @relation(fields: [id_product], references: [id])
+  photo_kitchen String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model livingroom {
+  id String @id @default(uuid())
+  id_user String
+  user User @relation(fields: [id_user], references: [id])
+  id_product String
+  product Product @relation(fields: [id_product], references: [id])
+  photo_livingroom String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model exterior {
+  id String @id @default(uuid())
+  id_user String
+  user User @relation(fields: [id_user], references: [id])
+  id_product String
+  product Product @relation(fields: [id_product], references: [id])
+  photo_exterior String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model moredata {
+  id String @id @default(uuid())
+  id_user String
+  user User @relation(fields: [id_user], references: [id])
+  id_product String
+  product Product @relation(fields: [id_product], references: [id])
+  photo_moredata String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 
