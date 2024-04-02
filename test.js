@@ -56,3 +56,7 @@ let moredata = {
   id_product: uuid,
   photo_moredata: string,
 };
+
+let DataTesting = {
+  message: string,
+};
