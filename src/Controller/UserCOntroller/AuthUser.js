@@ -90,6 +90,7 @@ const LoginUserControlller = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    1;
     return res.status(500).json({
       message: 'something went wrong',
       error: error,
