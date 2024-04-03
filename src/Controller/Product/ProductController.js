@@ -62,17 +62,62 @@ const RegisterProductController = async (req, res) => {
 
 //============================================ Pagnation List Product =================================================================
 const PagnationListProductController = async (req, res) => {
+  const { pageNumber, pageSize, searchCriteria } = req.query; // Get Query Parameter
+  let page = parseInt(req.query.pageSize) || 1; // make page Size from string to integer
   try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-    const offset = (page - 1) * limit;
-    const totalData = await prisma.product.count();
-    const totalPage = Math.ceil(totalData / limit);
-    const currentPage = page;
-    const nextPage = currentPage < totalPage ? currentPage + 1 : null;
-    const prevPage = currentPage > 1 ? currentPage - 1 : null;
-    const lastPage = totalPage;
+    const skip = (pageNumber - 1) * pageSize;
+    let where = {}; // Save Object for save momery filter
+
+    // For Filter Search
+    if (searchCriteria) {
+      where = {
+        OR: [{ title: { contains: searchCriteria } }, { name_user: { contains: searchCriteria } }],
+      };
+    }
+
+    //+++++++++++++++++++++++++++++++++++++++++++++ Logic Pagnation +++++++++++++++++++++++++++++++++++++++++
+    const products = await prisma.product.findMany({
+      skip,
+      take: page,
+      orderBy: {
+        createdAt: 'desc',
+      },
+      where,
+      // include: {
+      //   user: true,
+      // },
+    });
+    //++++++++++++++++++++++++++++++++++++++++++ End Logic Pagnation +++++++++++++++++++++++++++++++++++++++++
+
+    // For make total data from search product
+    const totalProducts = await prisma.product.count({
+      where,
+    });
+
+    //++++++++++++++++++++++++++++++++++ This Logic For View Pagnation +++++++++++++++++++++++++++++++++++
+    let totalData = totalProducts;
+    let totalPage = Math.ceil(totalData / pageSize);
+    let nextPage = pageNumber < totalPage ? +pageNumber + 1 : null;
+    let prevPage = pageNumber > 1 ? pageNumber - 1 : null;
+    let lastPage = totalPage;
+
+    //++++++++++++++++++++++++++++++++++ End Logic for View Pagnation +++++++++++++++++++++++++++++++++++++++++
+    // Respon API Succes make API
+    return res.status(200).json({
+      message: 'success',
+      error: null,
+      data: {
+        products,
+        totalData: totalData,
+        totalPage: totalPage,
+        currentPage: +pageNumber,
+        nextPage: nextPage,
+        prevPage: prevPage,
+        lastPage: lastPage,
+      },
+    });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       message: 'something went wrong',
       error: error,
