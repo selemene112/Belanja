@@ -63,4 +63,5 @@ let DataTesting = {
 
 let data = {
   message: testing,
+  testing: waow,
 };
