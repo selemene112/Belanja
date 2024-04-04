@@ -60,3 +60,7 @@ let moredata = {
 let DataTesting = {
   message: string,
 };
+
+let data = {
+  message: testing,
+};
