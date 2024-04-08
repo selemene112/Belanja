@@ -83,9 +83,9 @@ const PagnationListProductController = async (req, res) => {
         createdAt: 'desc',
       },
       where,
-      // include: {
-      //   user: true,
-      // },
+      include: {
+        Bathrooms: true,
+      },
     });
     //++++++++++++++++++++++++++++++++++++++++++ End Logic Pagnation +++++++++++++++++++++++++++++++++++++++++
 
